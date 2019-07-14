@@ -19,14 +19,6 @@ class Node:
         return self
 
 
-import glob
-
-lst = []
-sub_lst = []
-
-
-# chld_lst = []
-
 def get_parents(path):
     list_of_files = glob.glob(path)
     for f in list_of_files:
@@ -41,15 +33,33 @@ def get_parents(path):
     return lst
 
 
-def get_childs(p_lst: list):
-    for i in range(len(p_lst)):
-        for j in range(len(p_lst)):
-            if p_lst[i][1] == p_lst[j][0]:
-                p_lst[i][3] = p_lst[j][0]
+def get_child(lst):
+    tmp = []
+    for i in range(len(lst)):
+        for j in range(len(lst) - 1):
+            a = lst[i][0]
+            b = lst[j + 1][1]
+            if a == b:
+                tmp.append(lst[j + 1][0])
                 print(i, j)
+        lst[i][3] = tmp
+        tmp = []
     return lst
 
 
+def get_leaf(lst):
+    f = open('no_child.txt', mode='w')
+    for i in range(len(lst)):
+        if len(lst[i][3]) == 0:
+            f.write(lst[i][0])
+    f.close()
+    return 0
+
+
+import glob
+
+lst = []
+sub_lst = []
+
 get_parents('./files/*.txt')
-child_lst = get_childs(lst)
 print(lst)
